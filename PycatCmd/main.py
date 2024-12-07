@@ -4,6 +4,7 @@ import subprocess
 import time
 import sys 
 import platform
+import hashid 
 
 #Location of the wifi h2000 file
 wificap= "Path\\To\\Wifi\\Capture"
@@ -70,7 +71,9 @@ while True:
             pass
         case "4":
             # copy and paste a hash and have the program identify what type of hash it is 
-            pass
+            hashes = input('Enter hashes in quotes ("xxxxxx, xxxxxx", ......) or enter hashes file from inside the program: ')
+            hashid.identify_hashes(hashes)
+            
         case "5":
             # use crunch and cewl to munge wordlists together 
             pass
