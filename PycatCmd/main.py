@@ -17,8 +17,6 @@ rulesdir = "Pycat/PycatCmd/Rules"
 hashtunedir = ""
 # Boolean value
 displayresults = True
-# Hashcat Mode
-mode = 22000
 
 
 # Gettting the OS platform to make sure if we need to run exe in Windows.
@@ -29,7 +27,7 @@ if plat == "Windows":
 else:
     hcat = "hashcat"
 
-options = ["\nAvailable Options:", "1. Attack", "2. View Available Wordlists/Rules/Charsets", "3. Upload Files", "4. Hash Identification", "5. Wordlist Munging", "6. Custom Rules", "7. View Potfile", "8. Exit"]
+options = ["\nAvailable Options:", "1. Attack", "2. View Available Wordlists/Rules/Charsets", "3. Upload Files", "4. Hash Identification", "5. Wordlist Munging", "6. View Potfile", "7. Exit"]
 
 # Pycat ASCII Art along with the several options needed 
 print(
@@ -77,13 +75,9 @@ while True:
             # use crunch and cewl to munge wordlists together 
             pass
         case "6":
-            # Create Custom Rulesets 
+            # view potfile  
             pass
         case "7":
-            # view cracked passwords 
-            pass
-        case "8":
-            # exit 
             sys.exit(0)
         case _:
             pass
