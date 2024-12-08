@@ -1,12 +1,10 @@
 #imports 
-import os
-import subprocess
-import time
 import sys 
 import platform
 import hashid 
 import word_munging
 import file_management
+import attack
 
 #Location of the wifi h2000 file
 wificap= "Path\\To\\Wifi\\Capture"
@@ -67,8 +65,32 @@ while True:
     option = input("\nChoice: ")
     match option:
         case "1":
-            #hash cat attack and view the attack 
-            pass
+            #atttack
+            while True: 
+                #hash cat attack and view the attack
+                print("\nHashcat Cracking Options:\n1. Attack\n2. Upload Hashes\n3. Remove Hashes\n4. Hashcat Manual\n5. List Files\n6. Exit")
+                option = input("\nChoice: ").strip()
+                if option == '1':
+                    pass
+                #upload hashes
+                elif option == '2':
+                    attack.upload_hashes()
+                #remove hashes
+                elif option == '3':
+                    attack.remove_hashes()
+                #hashcat man page
+                elif option == '4':
+                    attack.hashcat_man()
+                elif option == '5':
+                    file_management.list_files("PycatCmd/wordlists")
+                    file_management.list_files("PycatCmd/rules")
+                    file_management.list_files("PycatCmd/charsets")
+                elif option == '6':
+                    break
+                else: 
+                    print("Invalid Choice")
+                    
+            
         case "2":
             file_management.list_files("PycatCmd/wordlists")
             file_management.list_files("PycatCmd/rules")
@@ -86,12 +108,22 @@ while True:
                     print("invalid choice.")
         case "3":
             file_management.upload_files()
-            pass
         case "4":
             # copy and paste a hash and have the program identify what type of hash it is 
-            hashes = input('Enter hashes in quotes ("xxxxxx, xxxxxx", ......) or enter hashes file from inside the program: ')
-            hashid.identify_hashes(hashes)
-            
+            try: 
+
+                hashes_file = "PycatCmd/Passwd-hashes/hashes.txt"
+                print('\nOptions:')
+                choice = input('1. Paste Hashes\n2. Identify Hashes from hashes.txt\nChoice: ')
+                if choice == "1": 
+                    hashes = input('Enter hashes in quotes ("xxxxxx, xxxxxx, ......): ')
+                    hashid.identify_hashes(hashes)
+                elif choice == "2":
+                    hashid.identify_hashes(hashes_file)   
+
+            except Exception as e:
+                print(f"An exception occured: {e}")
+                
         case "5":
             # use crunch and cewl to munge wordlists together
             try: 

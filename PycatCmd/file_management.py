@@ -113,16 +113,22 @@ def upload_files():
         #create file and copy and paste data into it 
         elif choice == "3":
 
-            file_name = input("Enter name of file: ")
-            data = []
-            while True:
-                line = input("Paste Data: ")
-                if line.strip() == "":  # End input on an empty line
-                    break
-                data.append(line)
-            
-            with open(f"{save_directory}/{file_name}-{date}.txt", 'w') as f: 
-                    f.write("\n".join(str(line) for line in data) + "\n")
+            file_name = input("Enter name of file: ").strip()
+            if file_name:
+                print("Paste Data below, Press Enter to Finish: ")
+                data = []
+                try: 
+                    while True:
+                        line = input()
+                        if not line.strip(): 
+                            break
+                        data.append(line.strip())
+                    
+                    with open(f"{save_directory}/{file_name}-{date}.txt", 'w') as f: 
+                            f.write("\n".join(str(line) for line in data) + "\n")
+
+                except Exception as e: 
+                    print(f"An error occured {e}")
 
     except Exception as e:
             print(f"An error occurred: {e}")
