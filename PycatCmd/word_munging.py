@@ -35,7 +35,7 @@ def cewl_munging(url, wordlist_name):
 
 def crunch_munging():
     import subprocess
-    import os
+    import file_management
     import datetime
 
     date = datetime.datetime.now()
@@ -47,47 +47,7 @@ def crunch_munging():
     list_charsets = input("list charsets?(y/n): ")
 
     if list_charsets == 'y':
-        charset_dir = "PycatCmd/charsets/"
-        all_charsets = {}
-
-        # Traverse the directory structure and collect files for each directory
-        for root, dirs, files in os.walk(charset_dir):
-            relative_dir = os.path.relpath(root, charset_dir)
-
-            # Skip the base directory if it contains no files
-            if relative_dir == ".":
-                continue
-
-            # Store the files in the dictionary only if the directory contains files
-            if files:
-                all_charsets[relative_dir] = files
-
-        # Calculate the maximum length for directory and filenames to ensure even spacing
-        max_dir_len = max(len(dir_name) for dir_name in all_charsets.keys())
-        max_file_len = max(len(file) for files in all_charsets.values() for file in files)
-
-        # Create the header row with evenly spaced columns
-        header = f"{'charset dir'.ljust(max_dir_len)} | " + " | ".join([f"{'charsets'.ljust(max_file_len)}"] * 4)
-        print(header)
-        print("-" * len(header))  # Separator line to match the length of the header
-
-        # Print each directory with its files, ensuring even spacing
-        for dir_name, files in all_charsets.items():
-            # Split the list of files into groups of 4
-            file_chunks = [files[i:i + 4] for i in range(0, len(files), 4)]
-
-            # Print the directory name only once for each set of file rows
-            for i, chunk in enumerate(file_chunks):
-                if i == 0:
-                    # Print the directory name with the first row of files
-                    row = [f"{dir_name.ljust(max_dir_len)}"] + [f"{file.ljust(max_file_len)}" for file in chunk]
-                    print(" | ".join(row))
-                else:
-                    # Indent subsequent rows with files only
-                    row = [" " * max_dir_len] + [f"{file.ljust(max_file_len)}" for file in chunk]
-                    print(" | ".join(row))
-
-
+        file_management.list_files("PycatCmd/charsets")
 # actualy crunch functionality 
 
         wordlist_name = input("enter wordlist name: ")

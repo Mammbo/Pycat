@@ -6,6 +6,7 @@ import sys
 import platform
 import hashid 
 import word_munging
+import file_management
 
 #Location of the wifi h2000 file
 wificap= "Path\\To\\Wifi\\Capture"
@@ -59,7 +60,6 @@ title = r"""
 """
 print(title)
 
-
 while True: 
     # prints all the options 
     for i in options:
@@ -70,8 +70,9 @@ while True:
             #hash cat attack and view the attack 
             pass
         case "2":
-            # print everything in charsets, rulles, and wordlists
-            pass
+            file_management.list_files("PycatCmd/wordlists")
+            file_management.list_files("PycatCmd/rules")
+            file_management.list_files("PycatCmd/charsets")
         case "3":
             # upload various files to the charsets, rules, or wordlists directory so users can make their own. 
             pass
