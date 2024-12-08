@@ -85,7 +85,7 @@ while True:
             try: 
                 choice = input("crunch(1) or cewl(2)?: ")
                 if choice == "1":
-                    pass
+                    word_munging.crunch_munging()
 
                 elif choice =="2":
                     url = input("paste url to scrape from: ")
