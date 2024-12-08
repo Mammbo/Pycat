@@ -73,6 +73,17 @@ while True:
             file_management.list_files("PycatCmd/wordlists")
             file_management.list_files("PycatCmd/rules")
             file_management.list_files("PycatCmd/charsets")
+            while True: 
+                choice = input("Enter file to inspect or 0 to exit: ").strip()
+                if choice != '0':
+                    file_management.list_files("PycatCmd/wordlists")
+                    file_management.list_files("PycatCmd/rules")
+                    file_management.list_files("PycatCmd/charsets")
+                    file_management.inspect_files(choice)
+                elif choice == '0':
+                    break 
+                else:
+                    print("invalid choice.")
         case "3":
             file_management.upload_files()
             pass

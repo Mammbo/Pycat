@@ -1,6 +1,18 @@
 ### list all avaiable files ### 
 
+def inspect_files(requested_file):
+    try:
+        with open(requested_file, 'r') as f:
+            contents = f.read()
+        print(f"Contents of {requested_file}: \n{contents}\n")
+    except FileNotFoundError:
+        print(f"Error: File '{requested_file}' not found. Please try again.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 def list_files(requested_dir):
+
+
         import os
 
         if requested_dir == "PycatCmd/wordlists":
@@ -57,9 +69,6 @@ def list_files(requested_dir):
 
 
 #make a function to inspect the contents of a file and print it out to the console then have everything reprint with the option pop back up again
-"""
-
-"""
 
 ### upload files ### 
 #wget file 
