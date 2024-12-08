@@ -58,3 +58,36 @@ def list_files(requested_dir):
 #wget file 
 # mv file on the system 
 #create a file and copy and paste data 
+
+def upload_files():
+    import subprocess
+    print("\nOptions: \n1. Wget File\n2. Move File on System\n3. Create a file and Copy Paste data")
+    choice = input("Enter Option: ")
+    file_type = input("Enter what file type (Wordlist, Rule, Charset): ").lower()
+    
+    #file_type dir'
+    try:
+        if file_type == "wordlist":
+            save_directory = "PycatCmd/wordlists/custom"
+        elif file_type == "rule":
+            save_directory = "PycatCmd/rules/custom"
+        elif file_type == "charset":
+            save_directory = "PycatCmd/charsets/custom"
+    except Exception as e: 
+        print(f"An exception occurred: {e}")
+        
+
+    #option selection
+    try: 
+        if choice == "1":
+            wget_url = input("enter wget url: ")
+            subprocess.run(['wget', "-P", save_directory, wget_url], stdout=subprocess.PIPE)
+
+        elif choice == "2":
+            pass
+        elif choice == "3":
+            pass
+    except Exception as e:
+            print(f"An error occurred: {e}")
+
+upload_files()
