@@ -74,7 +74,7 @@ while True:
             file_management.list_files("PycatCmd/rules")
             file_management.list_files("PycatCmd/charsets")
         case "3":
-            # upload various files to the charsets, rules, or wordlists directory so users can make their own. 
+            file_management.upload_files()
             pass
         case "4":
             # copy and paste a hash and have the program identify what type of hash it is 

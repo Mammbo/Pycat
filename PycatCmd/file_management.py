@@ -54,6 +54,13 @@ def list_files(requested_dir):
                     row = [" " * max_dir_len] + [f"{file.ljust(max_file_len)}" for file in chunk]
                     print(" | ".join(row))
         print("\n")
+
+
+#make a function to inspect the contents of a file and print it out to the console then have everything reprint with the option pop back up again
+"""
+
+"""
+
 ### upload files ### 
 #wget file 
 # mv file on the system 
@@ -61,6 +68,13 @@ def list_files(requested_dir):
 
 def upload_files():
     import subprocess
+    import shutil
+    import datetime
+    import sys
+
+    date = datetime.datetime.now()
+    date = date.strftime("%m-%d-%Y")
+
     print("\nOptions: \n1. Wget File\n2. Move File on System\n3. Create a file and Copy Paste data")
     choice = input("Enter Option: ")
     file_type = input("Enter what file type (Wordlist, Rule, Charset): ").lower()
@@ -79,15 +93,27 @@ def upload_files():
 
     #option selection
     try: 
+        #wget functionality 
         if choice == "1":
             wget_url = input("enter wget url: ")
             subprocess.run(['wget', "-P", save_directory, wget_url], stdout=subprocess.PIPE)
-
+        #move file on system 
         elif choice == "2":
-            pass
+            file_location = input("Enter path of file to move: ")
+            shutil.move(file_location, save_directory)
+        #create file and copy and paste data into it 
         elif choice == "3":
-            pass
+
+            file_name = input("Enter name of file: ")
+            data = []
+            while True:
+                line = input("Paste Data: ")
+                if line.strip() == "":  # End input on an empty line
+                    break
+                data.append(line)
+            
+            with open(f"{save_directory}/{file_name}-{date}.txt", 'w') as f: 
+                    f.write("\n".join(str(line) for line in data) + "\n")
+
     except Exception as e:
             print(f"An error occurred: {e}")
-
-upload_files()

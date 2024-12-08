@@ -61,7 +61,7 @@ def crunch_munging():
             #wordlist = words.split("\n", 1)[1]
             print(words)
 
-            with open(f"PycatCmd/Wordlists/Custom/{wordlist_name}-{date}.txt", 'w') as f: 
+            with open(f"PycatCmd/wordlists/custom/{wordlist_name}-{date}.txt", 'w') as f: 
                 f.write(words)
 
         except Exception as e:
@@ -80,7 +80,7 @@ def crunch_munging():
             #wordlist = words.split("\n", 1)[1]
             print(words)
 
-            with open(f"PycatCmd/Wordlists/Custom/{wordlist_name}-{date}.txt", 'w') as f: 
+            with open(f"PycatCmd/wordlists/custom/{wordlist_name}-{date}.txt", 'w') as f: 
                 f.write(words)
 
         except Exception as e:
