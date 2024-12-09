@@ -1,46 +1,48 @@
-
 def upload_hashes():
-    #option selection
+    # option selection
+    import os 
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     print("Paste Hashes below, Press Enter to Finish: ")
     data = []
-    try: 
+    try:
         while True:
             line = input()
-            if not line.strip(): 
+            if not line.strip():
                 break
             data.append(line.strip())
-                    
-            with open(f"~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", 'w') as f: 
+
+            with open(f"{BASE_DIR}/Passwd-hashes/hashes.txt", "w") as f:
                 f.write("\n".join(str(line) for line in data) + "\n")
 
-    except Exception as e: 
+    except Exception as e:
         print(f"An error occured {e}")
 
 
 def remove_hashes():
-    # read the file .split(\n), append everything to a list, zip that fiel with a for loop and print the index + 1 and the hash, have user input determine line number or index in this case, go to that line with the content save and store that content into a variable, then use this code, specifally the for loop. 
-    
-    with open("~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", "r+" ) as f:
-        lines = f.readlines()           # Get a list of all lines                     
-    
-        for line_num, data in enumerate(lines):
-            print(f"{line_num + 1}: {data.replace('\n', '')}")
-            
-        try: 
+    # read the file .split(\n), append everything to a list, zip that fiel with a for loop and print the index + 1 and the hash, have user input determine line number or index in this case, go to that line with the content save and store that content into a variable, then use this code, specifally the for loop.
+    import os 
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    with open(f"{BASE_DIR}/Passwd-hashes/hashes.txt", "r+") as f:
+        lines = f.readlines()  # Get a list of all lines
 
-    
+        for line_num, data in enumerate(lines):
+            cleaned_data = data.replace('\n', '')
+            print(f"{line_num + 1}: {cleaned_data}")
+
+        try:
+
             delete_hash = int(input("Inpute Line Number to delete: ")) - 1
-            
+
             if 0 <= delete_hash < len(lines):
                 lines.pop(delete_hash)
-    
+
                 f.seek(0)
-                f.truncate()                    # Stop processing now                         
-                                                # because len(file_lines) > len( lines ) 
-                f.writelines(lines)           # write back
-            else: 
+                f.truncate()  # Stop processing now
+                # because len(file_lines) > len( lines )
+                f.writelines(lines)  # write back
+            else:
                 print("invalid Line number!")
-        
+
         except ValueError:
             print("Enter Valid Number")
 
@@ -49,13 +51,13 @@ class Hashcat:
     def __init__(self):
         import subprocess
         import threading
-        #tracks the state of the project
+
+        # tracks the state of the project
         self.process = None
         self.running = False
-        #allows use of the imports whereever I want inside the class
+        # allows use of the imports whereever I want inside the class
         self.subprocess = subprocess
         self.threading = threading
-
 
     def start_hashcat(self, command):
         try:
@@ -67,7 +69,7 @@ class Hashcat:
                 stdout=self.subprocess.PIPE,
                 stderr=self.subprocess.STDOUT,
                 text=True,
-                bufsize=1
+                bufsize=1,
             )
             self.running = True
             # Start a thread to read Hashcat output
@@ -76,14 +78,14 @@ class Hashcat:
             print(f"Error starting Hashcat: {e}")
 
     def _read_output(self):
-        #Continuously read output from the Hashcat process. 
+        # Continuously read output from the Hashcat process.
         if self.process and self.process.stdout:
             for line in self.process.stdout:
                 print(line, end="", flush=True)  # Print Hashcat output to console
         self.running = False
 
     def send_command(self, command):
-        """ Send a command to the running Hashcat process. """
+        """Send a command to the running Hashcat process."""
         if self.process and self.running:
             try:
                 self.process.stdin.write(command + "\n")
@@ -95,31 +97,39 @@ class Hashcat:
             print("Hashcat process is not running.")
 
     def stop_hashcat(self):
-        # Terminate the Hashcat process. 
+        # Terminate the Hashcat process.
         if self.process:
             try:
                 self.process.terminate()
                 print("Hashcat process terminated.")
             except Exception as e:
                 print(f"Error terminating Hashcat: {e}")
-    #control hashcat will running           
+
+    # control hashcat will running
     def hash_cat_controller(self):
         while self.running:
-            user_input = input("Enter commands (status=p, pause=p, resume=r, quit=q): ").strip().lower()
+            user_input = (
+                input("Enter commands (status=p, pause=p, resume=r, quit=q): ")
+                .strip()
+                .lower()
+            )
             if user_input in ("p", "r", "b", "s", "q"):
                 self.send_command(user_input)
             if user_input == "q":
                 self.stop_hashcat()
                 break
 
+
 def hashcat_man():
     import subprocess
-    man = subprocess.run(['hashcat', '--help'], stdout=subprocess.PIPE)
+
+    man = subprocess.run(["hashcat", "--help"], stdout=subprocess.PIPE)
     print(man.stdout.decode())
 
 
 def view_cracked_hashes():
     import os
+
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     # Construct the full path dynamically
     relative_path = "Passwd-hashes/cracked-hashes.txt"
@@ -127,7 +137,7 @@ def view_cracked_hashes():
 
     # Attempt to read the file with error handling
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             cracked_hashes = f.read()
             print(cracked_hashes)
     except FileNotFoundError:
@@ -138,9 +148,11 @@ def view_cracked_hashes():
         print(f"An unexpected error occurred: {e}")
 
     # display file names one last time
-#executing attack 
-#display files, display whats in those files option 
+
+
+# executing attack
+# display files, display whats in those files option
 
 # upload hashes
-#im thinkgin for loop and print out all the lines of the hashes with their 1. xxxxxxsxxx, click that number and it will remove that hash by writing "" over it
+# im thinkgin for loop and print out all the lines of the hashes with their 1. xxxxxxsxxx, click that number and it will remove that hash by writing "" over it
 # remove hashes

@@ -86,7 +86,8 @@ def upload_files():
     import subprocess
     import shutil
     import datetime
-    
+    import os 
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
     date = datetime.datetime.now()
     date = date.strftime("%m-%d-%Y")
@@ -98,13 +99,13 @@ def upload_files():
     #file_type dir'
     try:
         if file_type == "wordlist":
-            save_directory = "~/Pycat/PycatCmd/wordlists/custom"
+            save_directory = f"{BASE_DIR}/wordlists/custom"
         elif file_type == "rule":
-            save_directory = "~/Pycat/PycatCmd/rules/custom"
+            save_directory = f"{BASE_DIR}/wordlists/custom"
         elif file_type == "charset":
-            save_directory = "~/Pycat/PycatCmd/charsets/custom"
+            save_directory = f"{BASE_DIR}/wordlists/custom"
         elif file_type == "mask":
-            save_directory = "~/Pycat/PycatCmd/masks/custom"
+            save_directory = f"{BASE_DIR}/wordlists/custom"
     except Exception as e: 
         print(f"An exception occurred: {e}")
         
