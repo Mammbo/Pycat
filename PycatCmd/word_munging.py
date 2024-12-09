@@ -2,9 +2,11 @@
 def cewl_munging(url, wordlist_name):
     import subprocess
     import datetime
+    import os
     
     date = datetime.datetime.now()
     date = date.strftime("%m-%d-%Y")
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
     help_menu = (subprocess.run(["cewl", "-h"], stdout=subprocess.PIPE))
     print(help_menu.stdout.decode())
@@ -24,8 +26,8 @@ def cewl_munging(url, wordlist_name):
         wordlist = words.split("\n", 1)[1]
         print(wordlist)
 
-        with open(f"PycatCmd/Wordlists/Custom/{wordlist_name}-{date}.txt", 'w') as f: 
-            f.write(wordlist)
+        with open(f"{BASE_DIR}/wordlists/custom/{wordlist_name}-{date}.txt", 'w') as f: 
+                f.write(wordlist)
 
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -37,7 +39,9 @@ def crunch_munging():
     import subprocess
     import file_management
     import datetime
+    import os
 
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     date = datetime.datetime.now()
     date = date.strftime("%m-%d-%Y")
 
@@ -47,7 +51,7 @@ def crunch_munging():
     list_charsets = input("list charsets?(y/n): ")
 
     if list_charsets == 'y':
-        file_management.list_files("PycatCmd/charsets")
+        file_management.list_files("charsets")
 # actualy crunch functionality 
 
         wordlist_name = input("enter wordlist name: ")
@@ -61,7 +65,7 @@ def crunch_munging():
             #wordlist = words.split("\n", 1)[1]
             print(words)
 
-            with open(f"PycatCmd/wordlists/custom/{wordlist_name}-{date}.txt", 'w') as f: 
+            with open(f"{BASE_DIR}/wordlists/custom/{wordlist_name}-{date}.txt", 'w') as f: 
                 f.write(words)
 
         except Exception as e:
@@ -80,7 +84,7 @@ def crunch_munging():
             #wordlist = words.split("\n", 1)[1]
             print(words)
 
-            with open(f"PycatCmd/wordlists/custom/{wordlist_name}-{date}.txt", 'w') as f: 
+            with open(f"{BASE_DIR}/wordlists/custom/{wordlist_name}-{date}.txt", 'w') as f: 
                 f.write(words)
 
         except Exception as e:

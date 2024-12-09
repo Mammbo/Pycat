@@ -11,66 +11,69 @@ def inspect_files(requested_file):
         print(f"An error occurred: {e}")
 
 def list_files(requested_dir):
+    import os 
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    # Map for directories and their labels
+    dir_map = {
+        "wordlists": ("PycatCmd/wordlists", "Wordlist Directory", "Wordlists"),
+        "rules": ("PycatCmd/rules", "Rules Directory", "Rules"),
+        "charsets": ("PycatCmd/charsets", "Charset Directory", "Charsets"),
+        "masks": ("PycatCmd/masks", "Masks Directory", "Masks"),
+    }
 
+    # Validate requested directory
+    if requested_dir not in dir_map:
+        return
 
-        import os
+    # Unpack details for the requested directory
+    relative_path, directory_label, file_label = dir_map[requested_dir]
 
-        if requested_dir == "PycatCmd/wordlists":
-            path = "PycatCmd/wordlists/"
-            directory = "Wordlist Directory"
-            file = "Wordlists"
-        elif requested_dir == "PycatCmd/rules":
-            path = "PycatCmd/rules/"
-            directory = "Rules Directory"
-            file = "Rules"
-        elif requested_dir == "PycatCmd/charsets":   
-            path = "PycatCmd/charsets/"
-            directory = "Charset Directory"
-            file = "Charsets"
-        elif requested_dir == "PycatCmd/masks":   
-            path = "PycatCmd/masks/"
-            directory = "Masks Directory"
-            file = "Masks"
+    # Dynamically adjust the base path to avoid duplicate nesting
+    if "PycatCmd" in os.path.basename(BASE_DIR):
+        path = os.path.join(BASE_DIR, relative_path.replace("PycatCmd/", ""))
+    else:
+        path = os.path.join(BASE_DIR, relative_path)
 
-        all_files = {}
-        # Traverse the directory structure and collect files for each directory
-        for root, dirs, files in os.walk(requested_dir):
-            relative_dir = os.path.relpath(root, requested_dir)
+    # Check if the directory exists
+    if not os.path.exists(path):
+        print(f"Error: The directory {path} does not exist.")
+        return
 
-            # Skip the base directory if it contains no files
-            if relative_dir == ".":
-                continue
+    # Initialize a dictionary to hold files by directory
+    all_files = {}
 
-            # Store the files in the dictionary only if the directory contains files
-            if files:
-                all_files[path + relative_dir] = files
+    # Traverse the directory structure and collect files
+    for dirpath, dirnames, filenames in os.walk(path):
+        if filenames:
+            all_files[dirpath] = filenames
 
-        # Calculate the maximum length for directory and filenames to ensure even spacing
-        max_dir_len = max(len(dir_name) for dir_name in all_files.keys())
-        max_file_len = max(len(file) for files in all_files.values() for file in files)
+    # Check if any files were found
+    if not all_files:
+        print(f"No files found in {path}.")
+        return
 
-        # Create the header row with evenly spaced columns
-        header = f"{directory.ljust(max_dir_len)} | " + " | ".join([f"{file.ljust(max_file_len)}"] * 4)
-        print(header)
-        print("-" * len(header))  # Separator line to match the length of the header
+    # Calculate maximum lengths for even formatting
+    max_dir_len = max(len(dir_name) for dir_name in all_files.keys())
+    max_file_len = max(len(file) for files in all_files.values() for file in files)
 
-        # Print each directory with its files, ensuring even spacing
-        for dir_name, files in all_files.items():
-            # Split the list of files into groups of 4
-            file_chunks = [files[i:i + 4] for i in range(0, len(files), 4)]
+    # Print header
+    header = f"{directory_label.ljust(max_dir_len)} | {file_label.ljust(max_file_len)}"
+    print(header)
+    print("-" * len(header))
 
-            # Print the directory name only once for each set of file rows
-            for i, chunk in enumerate(file_chunks):
-                if i == 0:
-                    # Print the directory name with the first row of files
-                    row = [f"{dir_name.ljust(max_dir_len)}"] + [f"{file.ljust(max_file_len)}" for file in chunk]
-                    print(" | ".join(row))
-                else:
-                    # Indent subsequent rows with files only
-                    row = [" " * max_dir_len] + [f"{file.ljust(max_file_len)}" for file in chunk]
-                    print(" | ".join(row))
-        print("\n")
+    # Print files grouped by directory
+    for dir_name, files in all_files.items():
+        # Split the files into chunks for better formatting
+        file_chunks = [files[i:i + 4] for i in range(0, len(files), 4)]
 
+        for i, chunk in enumerate(file_chunks):
+            if i == 0:
+                row = [f"{dir_name.ljust(max_dir_len)}"] + [f"{file.ljust(max_file_len)}" for file in chunk]
+            else:
+                row = [" " * max_dir_len] + [f"{file.ljust(max_file_len)}" for file in chunk]
+            print(" | ".join(row))
+
+    print("\n")
 
 #make a function to inspect the contents of a file and print it out to the console then have everything reprint with the option pop back up again
 
@@ -95,13 +98,13 @@ def upload_files():
     #file_type dir'
     try:
         if file_type == "wordlist":
-            save_directory = "PycatCmd/wordlists/custom"
+            save_directory = "~/Pycat/PycatCmd/wordlists/custom"
         elif file_type == "rule":
-            save_directory = "PycatCmd/rules/custom"
+            save_directory = "~/Pycat/PycatCmd/rules/custom"
         elif file_type == "charset":
-            save_directory = "PycatCmd/charsets/custom"
+            save_directory = "~/Pycat/PycatCmd/charsets/custom"
         elif file_type == "mask":
-            save_directory = "PycatCmd/masks/custom"
+            save_directory = "~/Pycat/PycatCmd/masks/custom"
     except Exception as e: 
         print(f"An exception occurred: {e}")
         

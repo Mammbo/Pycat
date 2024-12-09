@@ -14,7 +14,7 @@ if plat == "Windows":
 else:
     hcat = "hashcat"
 
-options = ["\nAvailable Options:", "1. Attack", "2. View Available Wordlists/Rules/Charsets", "3. Upload Files", "4. Hash Identification", "5. Wordlist Munging", "6. View Potfile", "7. Exit"]
+options = ["\nAvailable Options:", "1. Attack", "2. View Available Wordlists/Rules/Charsets/Masks", "3. Upload Files", "4. Hash Identification", "5. Wordlist Munging", "6. View Potfile", "7. Exit"]
 
 # Pycat ASCII Art along with the several options needed 
 title = r"""
@@ -76,9 +76,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type,  # Hash type (e.g., MD5)
                                     "-a", attack_type,  # Attack mode (e.g., dictionary)
-                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
                                     "-r", rule1,
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                                     
                                 ]
                                 hashcat.start_hashcat(hashcat_cmd)
@@ -88,10 +88,10 @@ while True:
                                     "hashcat", 
                                     "-m", hash_type, 
                                     "-a", attack_type, 
-                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", 
                                     "-r", rule1, 
                                     "-r", rule2,
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                                 ]
                                 hashcat.start_hashcat(hashcat_cmd)
                                 hashcat.hash_cat_controller()
@@ -101,9 +101,9 @@ while True:
                                 "hashcat",
                                 "-m", hash_type,  # Hash type (e.g., MD5)
                                 "-a", attack_type,  # Attack mode (e.g., dictionary)
-                                "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
+                                "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
                                 wordlist,
-                                '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                                 
                             ]
                             hashcat.start_hashcat(hashcat_cmd)
@@ -120,9 +120,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type,  # Hash type (e.g., MD5)
                                     "-a", attack_type,  # Attack mode (e.g., dictionary)
-                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
                                     wordlist1, wordlist2,
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt'                                 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt'                                 
                                 ]
                         hashcat.start_hashcat(hashcat_cmd)
                         hashcat.hash_cat_controller()
@@ -136,9 +136,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type,  # Hash type (e.g., MD5)
                                     "-a", attack_type,  # Attack mode (e.g., dictionary)
-                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash fil
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt",  # Input hash fil
                                     mask, '--increment',
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                             ]
                             hashcat.start_hashcat(hashcat_cmd)
                             hashcat.hash_cat_controller()
@@ -148,9 +148,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type,  # Hash type (e.g., MD5)
                                     "-a", attack_type,  # Attack mode (e.g., dictionary)
-                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash fil
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt",  # Input hash fil
                                     mask,
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                             ]
                             hashcat.start_hashcat(hashcat_cmd)
                             hashcat.hash_cat_controller()
@@ -168,9 +168,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type,  
                                     "-a", attack_type,  
-                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", 
                                     wordlist, mask, '--increment',
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                             ]
                             hashcat.start_hashcat(hashcat_cmd)
                             hashcat.hash_cat_controller()
@@ -182,9 +182,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type,  
                                     "-a", attack_type,  
-                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", 
                                     wordlist, mask,
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                             ]
                             hashcat.start_hashcat(hashcat_cmd)
                             hashcat.hash_cat_controller()
@@ -199,9 +199,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type ,  
                                     "-a", attack_type,  
-                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", 
                                     mask, wordlist, '--increment',
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                             ]
                             hashcat.start_hashcat(hashcat_cmd)
                             hashcat.hash_cat_controller()
@@ -213,9 +213,9 @@ while True:
                                     "hashcat",
                                     "-m", hash_type,  
                                     "-a", attack_type,  
-                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    "~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", 
                                     mask, wordlist,
-                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    '-o', '~/Pycat/PycatCmd/Passwd-hashes/cracked-hashes.txt' 
                             ]
 
                             hashcat.start_hashcat(hashcat_cmd)
@@ -232,38 +232,38 @@ while True:
                 elif option == '4':
                     attack.hashcat_man()
                 elif option == '5':
-                    file_management.list_files("PycatCmd/wordlists")
-                    file_management.list_files("PycatCmd/rules")
-                    file_management.list_files("PycatCmd/charsets")
+                    file_management.list_files("~/Pycat/PycatCmd/wordlists")
+                    file_management.list_files("~/Pycat/PycatCmd/rules")
+                    file_management.list_files("~/Pycat/PycatCmd/charsets")
                 elif option == '6':
                     break
                 else: 
                     print("Invalid Choice")
                     
         case "2":
-            file_management.list_files("PycatCmd/wordlists")
-            file_management.list_files("PycatCmd/rules")
-            file_management.list_files("PycatCmd/charsets")
-            file_management.list_files("PycatCmd/masks")
+            # Call list_files for each subdirectory
+            sub_dirs = ["wordlists", "rules", "charsets", "masks"]
+
+            for sub_dir in sub_dirs:
+                file_management.list_files(sub_dir)
+            
             while True: 
                 choice = input("Enter file to inspect or 0 to exit: ").strip()
-                if choice != '0':
-                    file_management.list_files("PycatCmd/wordlists")
-                    file_management.list_files("PycatCmd/rules")
-                    file_management.list_files("PycatCmd/charsets")
-                    file_management.list_files("PycatCmd/masks")
-                    file_management.inspect_files(choice)
-                elif choice == '0':
-                    break 
+                if choice == '0':
+                    break
                 else:
-                    print("invalid choice.")
+                    # Re-display the list of files
+                    for sub_dir in sub_dirs:
+                        file_management.list_files(sub_dir)
+                    file_management.inspect_files(choice)
         case "3":
             file_management.upload_files()
         case "4":
             # copy and paste a hash and have the program identify what type of hash it is 
+            import os 
+            BASE_DIR = os.path.abspath(os.path.dirname(__file__))
             try: 
-
-                hashes_file = "PycatCmd/Passwd-hashes/hashes.txt"
+                hashes_file = f"{BASE_DIR}/Passwd-hashes/hashes.txt"
                 print('\nOptions:')
                 choice = input('1. Paste Hashes\n2. Identify Hashes from hashes.txt\nChoice: ')
                 if choice == "1": 

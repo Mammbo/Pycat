@@ -10,7 +10,7 @@ def upload_hashes():
                 break
             data.append(line.strip())
                     
-            with open(f"PycatCmd/Passwd-hashes/hashes.txt", 'w') as f: 
+            with open(f"~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", 'w') as f: 
                 f.write("\n".join(str(line) for line in data) + "\n")
 
     except Exception as e: 
@@ -20,7 +20,7 @@ def upload_hashes():
 def remove_hashes():
     # read the file .split(\n), append everything to a list, zip that fiel with a for loop and print the index + 1 and the hash, have user input determine line number or index in this case, go to that line with the content save and store that content into a variable, then use this code, specifally the for loop. 
     
-    with open("PycatCmd/Passwd-hashes/hashes.txt", "r+" ) as f:
+    with open("~/Pycat/PycatCmd/Passwd-hashes/hashes.txt", "r+" ) as f:
         lines = f.readlines()           # Get a list of all lines                     
     
         for line_num, data in enumerate(lines):
@@ -117,10 +117,25 @@ def hashcat_man():
     man = subprocess.run(['hashcat', '--help'], stdout=subprocess.PIPE)
     print(man.stdout.decode())
 
+
 def view_cracked_hashes():
-    with open('PycatCmd/Passwd-hashes/cracked-hashes.txt', 'r') as f:
-        cracked_hashes = f.read()
-        print(cracked_hashes)
+    import os
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    # Construct the full path dynamically
+    relative_path = "Passwd-hashes/cracked-hashes.txt"
+    file_path = os.path.join(BASE_DIR, relative_path)
+
+    # Attempt to read the file with error handling
+    try:
+        with open(file_path, 'r') as f:
+            cracked_hashes = f.read()
+            print(cracked_hashes)
+    except FileNotFoundError:
+        print(f"Error: The file {file_path} does not exist.")
+    except PermissionError:
+        print(f"Error: Permission denied when accessing {file_path}.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
     # display file names one last time
 #executing attack 
