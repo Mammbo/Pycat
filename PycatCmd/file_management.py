@@ -25,8 +25,12 @@ def list_files(requested_dir):
             file = "Rules"
         elif requested_dir == "PycatCmd/charsets":   
             path = "PycatCmd/charsets/"
-            directory = "Charset Dictonary"
+            directory = "Charset Directory"
             file = "Charsets"
+        elif requested_dir == "PycatCmd/masks":   
+            path = "PycatCmd/masks/"
+            directory = "Masks Directory"
+            file = "Masks"
 
         all_files = {}
         # Traverse the directory structure and collect files for each directory
@@ -79,14 +83,14 @@ def upload_files():
     import subprocess
     import shutil
     import datetime
-    import sys
+    
 
     date = datetime.datetime.now()
     date = date.strftime("%m-%d-%Y")
 
     print("\nOptions: \n1. Wget File\n2. Move File on System\n3. Create a file and Copy Paste data")
     choice = input("Enter Option: ")
-    file_type = input("Enter what file type (Wordlist, Rule, Charset): ").lower()
+    file_type = input("Enter what file type (Wordlist, Rule, Charset, mask): ").lower()
     
     #file_type dir'
     try:
@@ -96,6 +100,8 @@ def upload_files():
             save_directory = "PycatCmd/rules/custom"
         elif file_type == "charset":
             save_directory = "PycatCmd/charsets/custom"
+        elif file_type == "mask":
+            save_directory = "PycatCmd/masks/custom"
     except Exception as e: 
         print(f"An exception occurred: {e}")
         

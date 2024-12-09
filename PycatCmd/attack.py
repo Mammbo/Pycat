@@ -44,8 +44,73 @@ def remove_hashes():
         except ValueError:
             print("Enter Valid Number")
 
-def attack():
-    pass
+
+class Hashcat:
+    def __init__(self):
+        import subprocess
+        import threading
+        #tracks the state of the project
+        self.process = None
+        self.running = False
+        #allows use of the imports whereever I want inside the class
+        self.subprocess = subprocess
+        self.threading = threading
+
+
+    def start_hashcat(self, command):
+        try:
+            print(f"Starting Hashcat with command: {command}")
+            # Start Hashcat process and stracks the input and output
+            self.process = self.subprocess.Popen(
+                command,
+                stdin=self.subprocess.PIPE,
+                stdout=self.subprocess.PIPE,
+                stderr=self.subprocess.STDOUT,
+                text=True,
+                bufsize=1
+            )
+            self.running = True
+            # Start a thread to read Hashcat output
+            self.threading.Thread(target=self._read_output, daemon=True).start()
+        except Exception as e:
+            print(f"Error starting Hashcat: {e}")
+
+    def _read_output(self):
+        #Continuously read output from the Hashcat process. 
+        if self.process and self.process.stdout:
+            for line in self.process.stdout:
+                print(line, end="", flush=True)  # Print Hashcat output to console
+        self.running = False
+
+    def send_command(self, command):
+        """ Send a command to the running Hashcat process. """
+        if self.process and self.running:
+            try:
+                self.process.stdin.write(command + "\n")
+                self.process.stdin.flush()
+                print(f"Sent command: {command}")
+            except Exception as e:
+                print(f"Error sending command: {e}")
+        else:
+            print("Hashcat process is not running.")
+
+    def stop_hashcat(self):
+        # Terminate the Hashcat process. 
+        if self.process:
+            try:
+                self.process.terminate()
+                print("Hashcat process terminated.")
+            except Exception as e:
+                print(f"Error terminating Hashcat: {e}")
+    #control hashcat will running           
+    def hash_cat_controller(self):
+        while self.running:
+            user_input = input("Enter commands (status=p, pause=p, resume=r, quit=q): ").strip().lower()
+            if user_input in ("p", "r", "b", "s", "q"):
+                self.send_command(user_input)
+            if user_input == "q":
+                self.stop_hashcat()
+                break
 
 def hashcat_man():
     import subprocess
@@ -53,10 +118,12 @@ def hashcat_man():
     print(man.stdout.decode())
 
 def view_cracked_hashes():
-    pass
+    with open('PycatCmd/Passwd-hashes/cracked-hashes.txt', 'r') as f:
+        cracked_hashes = f.read()
+        print(cracked_hashes)
 
     # display file names one last time
-#executing attack
+#executing attack 
 #display files, display whats in those files option 
 
 # upload hashes

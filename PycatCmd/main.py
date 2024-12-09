@@ -6,20 +6,6 @@ import word_munging
 import file_management
 import attack
 
-#Location of the wifi h2000 file
-wificap= "Path\\To\\Wifi\\Capture"
-# Directory where all the wordlist are located
-wordlistdir = "Pycat/PycatCmd/Wordlists"
-#Directory whee hashcat is located. Only for Windows users
-hashcatdir = "Path\\To\\Password\\Hashcat"
-#Directory where rules file ae located
-rulesdir = "Pycat/PycatCmd/Rules"
-#If for hashcat.hctune is located in a different directory than hashcat. This is needed if you get an error about hashtune is not found.
-hashtunedir = ""
-# Boolean value
-displayresults = True
-
-
 # Gettting the OS platform to make sure if we need to run exe in Windows.
 plat = platform.system()
 
@@ -71,14 +57,178 @@ while True:
                 print("\nHashcat Cracking Options:\n1. Attack\n2. Upload Hashes\n3. Remove Hashes\n4. Hashcat Manual\n5. List Files\n6. Exit")
                 option = input("\nChoice: ").strip()
                 if option == '1':
-                    pass
-                #upload hashes
+                    hashcat = attack.Hashcat()
+
+                    hash_type = input("Enter Hash Type: ")
+                    attack_type = input("\nAttack Modes:\n1. -a 0 Straight\n2. -a 1 Combination attack\n3. Brute-force\n4. Hybrid Wordlist + Mask\n5. Hybrid Mask + Wordlist\nChoice: ").strip()
+
+                    if attack_type == '1':
+                        attack_type = '0'
+                        wordlist = input('Path to Wordlist: ')
+                        
+                        rulesCheck = input("Do you want to use rules? (y/n): ").lower().strip()
+
+                        if rulesCheck == 'y':
+                            rule1 = input('Enter Rules 1: ')
+                            rule2 = input('Enter Rules 2: (click enter for nothing): ')
+                            if rule2 == '':
+                                hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type,  # Hash type (e.g., MD5)
+                                    "-a", attack_type,  # Attack mode (e.g., dictionary)
+                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
+                                    "-r", rule1,
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                    
+                                ]
+                                hashcat.start_hashcat(hashcat_cmd)
+                                hashcat.hash_cat_controller()
+                            else: 
+                                hashcat_cmd = [ 
+                                    "hashcat", 
+                                    "-m", hash_type, 
+                                    "-a", attack_type, 
+                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    "-r", rule1, 
+                                    "-r", rule2,
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                ]
+                                hashcat.start_hashcat(hashcat_cmd)
+                                hashcat.hash_cat_controller()
+                        elif rulesCheck == 'n':
+                            # Example Hashcat command (adjust as needed)
+                            hashcat_cmd = [
+                                "hashcat",
+                                "-m", hash_type,  # Hash type (e.g., MD5)
+                                "-a", attack_type,  # Attack mode (e.g., dictionary)
+                                "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
+                                wordlist,
+                                '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                                
+                            ]
+                            hashcat.start_hashcat(hashcat_cmd)
+                            hashcat.hash_cat_controller()
+                        else: 
+                            print("Invalid input: ")\
+
+                    if attack_type == '2':
+                        attack_type = '1'
+                        wordlist1 = input('Path to Wordlist: ')
+                        wordlist2 = input('Path to Wordlist2: ')
+
+                        hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type,  # Hash type (e.g., MD5)
+                                    "-a", attack_type,  # Attack mode (e.g., dictionary)
+                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash file
+                                    wordlist1, wordlist2,
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt'                                 
+                                ]
+                        hashcat.start_hashcat(hashcat_cmd)
+                        hashcat.hash_cat_controller()
+                    if attack_type =='3':
+                        attack_type = '3'
+
+                        incrementCheck = input("Do you want to increment attack ?(y/n): ")
+                        if incrementCheck == 'y':
+                            mask = input('Enter mask or mask file: ')
+                            hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type,  # Hash type (e.g., MD5)
+                                    "-a", attack_type,  # Attack mode (e.g., dictionary)
+                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash fil
+                                    mask, '--increment',
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                            ]
+                            hashcat.start_hashcat(hashcat_cmd)
+                            hashcat.hash_cat_controller()
+                        elif incrementCheck == 'n':
+                            mask = input('Enter mask or mask file: ')
+                            hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type,  # Hash type (e.g., MD5)
+                                    "-a", attack_type,  # Attack mode (e.g., dictionary)
+                                    "PycatCmd/Passwd-hashes/hashes.txt",  # Input hash fil
+                                    mask,
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                            ]
+                            hashcat.start_hashcat(hashcat_cmd)
+                            hashcat.hash_cat_controller()
+                        else: 
+                            print("Invalid Input")
+
+                    if attack_type =='4':
+                        attack_type = '6'
+                        incrementCheck = input("Do you want to increment attack ?(y/n): ")
+                        if incrementCheck == 'y':
+                            mask = input('Enter mask or mask file: ')
+                            wordlist = input('Enter Wordlist: ')
+
+                            hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type,  
+                                    "-a", attack_type,  
+                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    wordlist, mask, '--increment',
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                            ]
+                            hashcat.start_hashcat(hashcat_cmd)
+                            hashcat.hash_cat_controller()
+                        elif incrementCheck == 'n':
+                            mask = input('Enter mask or mask file: ')
+                            wordlist = input('Enter Wordlist: ')
+
+                            hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type,  
+                                    "-a", attack_type,  
+                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    wordlist, mask,
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                            ]
+                            hashcat.start_hashcat(hashcat_cmd)
+                            hashcat.hash_cat_controller()
+                    if attack_type =='5':
+                        attack_type = '7'
+                        incrementCheck = input("Do you want to increment attack ?(y/n): ")
+                        if incrementCheck == 'y':
+                            mask = input('Enter mask or mask file: ')
+                            wordlist = input('Enter Wordlist: ')
+
+                            hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type ,  
+                                    "-a", attack_type,  
+                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    mask, wordlist, '--increment',
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                            ]
+                            hashcat.start_hashcat(hashcat_cmd)
+                            hashcat.hash_cat_controller()
+                        elif incrementCheck == 'n':
+                            mask = input('Enter mask or mask file: ')
+                            wordlist = input('Enter Wordlist: ')
+
+                            hashcat_cmd = [
+                                    "hashcat",
+                                    "-m", hash_type,  
+                                    "-a", attack_type,  
+                                    "PycatCmd/Passwd-hashes/hashes.txt", 
+                                    mask, wordlist,
+                                    '-o', 'PycatCmd/Passwd-hashes/cracked-hashes.txt' 
+                            ]
+
+                            hashcat.start_hashcat(hashcat_cmd)
+                            hashcat.hash_cat_controller()
+
+                    # Allow user interaction
+                                #upload hashes
                 elif option == '2':
                     attack.upload_hashes()
-                #remove hashes
+                                #remove hashes
                 elif option == '3':
-                    attack.remove_hashes()
-                #hashcat man page
+                     attack.remove_hashes()
+                                #hashcat man page
                 elif option == '4':
                     attack.hashcat_man()
                 elif option == '5':
@@ -90,17 +240,18 @@ while True:
                 else: 
                     print("Invalid Choice")
                     
-            
         case "2":
             file_management.list_files("PycatCmd/wordlists")
             file_management.list_files("PycatCmd/rules")
             file_management.list_files("PycatCmd/charsets")
+            file_management.list_files("PycatCmd/masks")
             while True: 
                 choice = input("Enter file to inspect or 0 to exit: ").strip()
                 if choice != '0':
                     file_management.list_files("PycatCmd/wordlists")
                     file_management.list_files("PycatCmd/rules")
                     file_management.list_files("PycatCmd/charsets")
+                    file_management.list_files("PycatCmd/masks")
                     file_management.inspect_files(choice)
                 elif choice == '0':
                     break 
@@ -141,7 +292,7 @@ while True:
             
         case "6":
             # view potfile  
-            pass
+            attack.view_cracked_hashes()
         case "7":
             sys.exit(0)
         case _:
