@@ -1,6 +1,88 @@
 # Pycat
-Python program to utilize hashcat and password cracking
 
+A Python wrapper for Hashcat that allows full password cracking capablitlities all in one spot, including word list creation, managing files, hashcat attacks, and hash identification.
+
+# Prequisites
+
+There are a few prequisites that you will need. Those are:
+
+- Install Python
+- Install Hashcat
+- Install Crunch and Cewl (Linux and Mac Only)
+- Install Python dependencies
+
+## Installing Python
+Python.org has a Wiki page that is best on how to install Python itself. 
+
+[Python Install Docs](https://wiki.python.org/moin/BeginnersGuide/Download)
+
+## Installing Hashcat
+
+### Windows(Currently not supported havent added the couple lines of code will do soon):
+Download the 7zip that contains everything you need from [Hashcat's website](https://hashcat.net/hashcat/). Once the files are downloaded, extract them. In the directory that the files were extracted to there will be a hashcat.exe file.
+
+### Linux
+Install Hashcat with your local repo manager.  For Debian users, such as Kali, Ubuntu, etc use the following:
+```
+sudo apt install hashcat
+```
+
+### MacOS
+Install Homebrew:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Then install Hashcat 
+```
+brew install hashcat
+```
+
+## Installing Crunch 
+
+### Linux 
+Install Crunch with your local repo manager. For Debian users, such as Kali, Ubuntu, etc use the following: 
+
+```
+sudo apt install crunch
+```
+### MacOS 
+
+Install Crunch: 
+
+```
+brew install crunch
+```
+## Installing Cewl
+
+### Linux 
+Install Cewl with you local repo manager. For Debian Users, such as Kali, Ubuntu, etc use the following: 
+
+```
+sudo apt install cewl 
+```
+### MacOS
+
+Follow the Installation guide on the Repo: [https://github.com/digininja/CeWL/?tab=readme-ov-file]
+
+Rename the Executable after: 
+
+```
+mv ./cewl.rb cewl 
+```
+
+Turn into a binary: 
+```
+sudo mv cewl /usr/local/bin
+```
+
+## Install Python Dependencies
+
+Install hashid: 
+
+```
+pip install hashid
+```
 
 TodoList: 
 
