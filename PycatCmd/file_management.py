@@ -87,58 +87,80 @@ def upload_files():
     import shutil
     import datetime
     import os 
+
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
     date = datetime.datetime.now()
     date = date.strftime("%m-%d-%Y")
 
     print("\nOptions: \n1. Wget File\n2. Move File on System\n3. Create a file and Copy Paste data")
-    choice = input("Enter Option: ")
-    file_type = input("Enter what file type (Wordlist, Rule, Charset, mask): ").lower()
+    choice = input("Enter Option: ").strip()
+    file_type = input("Enter what file type (Wordlist, Rule, Charset, Mask): ").strip().lower()
     
-    #file_type dir'
+    # File type directory and extension mapping
+    save_directory = None
+    file_extension = None
+    
     try:
         if file_type == "wordlist":
             save_directory = f"{BASE_DIR}/wordlists/custom"
+            file_extension = ".txt"
         elif file_type == "rule":
-            save_directory = f"{BASE_DIR}/wordlists/custom"
+            save_directory = f"{BASE_DIR}/rules/custom"
+            file_extension = ".rule"
         elif file_type == "charset":
-            save_directory = f"{BASE_DIR}/wordlists/custom"
+            save_directory = f"{BASE_DIR}/charsets/custom"
+            file_extension = ".char"
         elif file_type == "mask":
-            save_directory = f"{BASE_DIR}/wordlists/custom"
+            save_directory = f"{BASE_DIR}/masks/custom"
+            file_extension = ".hcmask"
+        else:
+            print("Invalid file type. Please select from Wordlist, Rule, Charset, or Mask.")
+            return
+
+        # Create the directory if it doesn't exist
+        os.makedirs(save_directory, exist_ok=True)
+    
     except Exception as e: 
-        print(f"An exception occurred: {e}")
-        
+        print(f"An exception occurred while setting up directories: {e}")
+        return
 
-    #option selection
+    # Option selection
     try: 
-        #wget functionality 
-        if choice == "1":
-            wget_url = input("enter wget url: ")
+        if choice == "1":  # wget functionality
+            wget_url = input("Enter wget URL: ").strip()
             subprocess.run(['wget', "-P", save_directory, wget_url], stdout=subprocess.PIPE)
-        #move file on system 
-        elif choice == "2":
-            file_location = input("Enter path of file to move: ")
-            shutil.move(file_location, save_directory)
-        #create file and copy and paste data into it 
-        elif choice == "3":
+            print(f"File downloaded to {save_directory}")
 
+        elif choice == "2":  # Move file on system
+            file_location = input("Enter path of file to move: ").strip()
+            shutil.move(file_location, save_directory)
+            print(f"File moved to {save_directory}")
+
+        elif choice == "3":  # Create file and copy-paste data
             file_name = input("Enter name of file: ").strip()
             if file_name:
-                print("Paste Data below, Press Enter to Finish: ")
+                print("Paste data below. Press Enter to finish:")
                 data = []
                 try: 
                     while True:
                         line = input()
-                        if not line.strip(): 
+                        if not line.strip():
                             break
                         data.append(line.strip())
                     
-                    with open(f"{save_directory}/{file_name}-{date}.txt", 'w') as f: 
-                            f.write("\n".join(str(line) for line in data) + "\n")
-
+                    # Save the file with the appropriate extension
+                    file_path = f"{save_directory}/{file_name}-{date}{file_extension}"
+                    with open(file_path, 'w') as f: 
+                        f.write("\n".join(data) + "\n")
+                    
+                    print(f"File saved as {file_path}")
+                
                 except Exception as e: 
-                    print(f"An error occured {e}")
+                    print(f"An error occurred while saving the file: {e}")
+        else:
+            print("Invalid option. Please select 1, 2, or 3.")
 
     except Exception as e:
-            print(f"An error occurred: {e}")
+        print(f"An error occurred: {e}")
+
